@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "@rainbow-me/rainbowkit/styles.css";
+
+:root {
+  --background: #0b1220;
+  --foreground: #f8fafc;
+}
+
+html, body {
+  background: var(--background);
+  color: var(--foreground);
+  min-height: 100vh;
+}
