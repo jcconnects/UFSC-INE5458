@@ -1,0 +1,26 @@
+# node
+node_modules/
+*.log
+.pnpm-store/
+
+# next.js
+web/.next/
+web/out/
+web/.env.local
+web/.env.*.local
+
+# foundry
+contracts/out/
+contracts/cache/
+contracts/broadcast/
+contracts/lib/
+contracts/deployments/*.json
+!contracts/deployments/.gitkeep
+
+# claude harness
+.claude/
+
+# editor / os
+.DS_Store
+.vscode/
+.idea/
