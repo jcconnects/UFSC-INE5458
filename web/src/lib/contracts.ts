@@ -1,13 +1,12 @@
 import type { Address } from "viem";
 
-function envAddr(name: string): Address {
-  const v = process.env[name];
-  if (!v) return "0x0000000000000000000000000000000000000000" as Address;
-  return v as Address;
-}
+// IMPORTANT: Next.js only inlines NEXT_PUBLIC_* into the client bundle for
+// LITERAL `process.env.NAME` expressions — a dynamic `process.env[name]`
+// lookup is undefined in the browser and silently yields the zero address.
+const ZERO = "0x0000000000000000000000000000000000000000" as Address;
 
-export const MOCK_USDC_ADDRESS = envAddr("NEXT_PUBLIC_MOCK_USDC");
-export const ESCROW_FACTORY_ADDRESS = envAddr("NEXT_PUBLIC_ESCROW_FACTORY");
+export const MOCK_USDC_ADDRESS = (process.env.NEXT_PUBLIC_MOCK_USDC ?? ZERO) as Address;
+export const ESCROW_FACTORY_ADDRESS = (process.env.NEXT_PUBLIC_ESCROW_FACTORY ?? ZERO) as Address;
 export const USDC_DECIMALS = 6;
 
 export function explorerTx(chainId: number, hash: `0x${string}`): string {
