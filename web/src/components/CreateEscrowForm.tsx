@@ -6,6 +6,7 @@ import { useAccount, usePublicClient, useWriteContract, useWaitForTransactionRec
 import { decodeEventLog, isAddress, parseUnits } from "viem";
 import { EscrowFactoryAbi } from "@/lib/abis/EscrowFactory";
 import { ESCROW_FACTORY_ADDRESS, MOCK_USDC_ADDRESS, USDC_DECIMALS } from "@/lib/contracts";
+import { DEMO_ACCOUNTS, DEMO_MODE } from "@/lib/wagmi";
 
 type Row = { amount: string; days: string };
 
@@ -13,7 +14,7 @@ export function CreateEscrowForm() {
   const router = useRouter();
   const { address } = useAccount();
   const publicClient = usePublicClient();
-  const [freelancer, setFreelancer] = useState("");
+  const [freelancer, setFreelancer] = useState(DEMO_MODE ? DEMO_ACCOUNTS.freelancer : "");
   const [rows, setRows] = useState<Row[]>([
     { amount: "100", days: "1" },
     { amount: "100", days: "2" },

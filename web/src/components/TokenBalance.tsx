@@ -3,6 +3,7 @@
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { MockUSDCAbi } from "@/lib/abis/MockUSDC";
 import { MOCK_USDC_ADDRESS, USDC_DECIMALS } from "@/lib/contracts";
+import { DEMO_MODE } from "@/lib/wagmi";
 import { fromUsdc } from "@/lib/format";
 import { ActionButton } from "./ActionButton";
 import { parseUnits } from "viem";
@@ -36,15 +37,19 @@ export function TokenBalance() {
         <div className="text-2xl font-semibold">{address ? fromUsdc(balance as bigint | undefined) : "—"}</div>
         <div className="text-xs opacity-50 mt-1">Demo token. Has a public mint — not real USDC.</div>
       </div>
-      <ActionButton
-        variant="secondary"
-        label="Get 1,000 mUSDC"
-        pending={isPending}
-        txHash={hash}
-        disabled={!address}
-        onClick={mint}
-        onConfirmed={() => refetch()}
-      />
+      {/* Hidden in demo mode: balances are pre-seeded by demo-up; a stray
+          click here would break the clean 1,000 / 0 numbers on camera. */}
+      {!DEMO_MODE && (
+        <ActionButton
+          variant="secondary"
+          label="Get 1,000 mUSDC"
+          pending={isPending}
+          txHash={hash}
+          disabled={!address}
+          onClick={mint}
+          onConfirmed={() => refetch()}
+        />
+      )}
     </div>
   );
 }
