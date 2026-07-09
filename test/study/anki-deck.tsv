@@ -1,0 +1,140 @@
+What does "trustless" mean in blockchain?	Trust is placed in mathematics and protocol rules, not in a central institution. It does NOT mean trust is absent — you trust the system, not a specific entity.
+What is the genuine innovation of Bitcoin/blockchain, given the underlying tech is old?	The game-theoretic "glue": a protocol design where following the rules is the dominant strategy and cheating is economically irrational. The primitives (hashes, public-key crypto, P2P) all predate it.
+What is a distributed ledger, historically?	A ledger is a ~6,000-year-old accounting technology; a distributed ledger (blockchain) is its digital, decentralized, distributed-computing version.
+What three sub-problems must decentralization solve?	Identity (who is who without a registry), integrity (history can't be reordered/altered), and ownership (only the rightful owner can spend).
+Name the three pillars of a cryptocurrency system.	History/Integrity, Rules, and Value/Incentives. If any one weakens, the whole system shakes.
+What does the History/Integrity pillar guarantee?	Recorded events cannot be altered retroactively — immutability of the chain.
+What does the Rules pillar govern?	What can and cannot happen on the chain — consensus mechanisms and smart-contract logic.
+What does the Value/Incentives pillar provide?	An economic reason for participants to follow the rules. Designing incentives is hardest for non-financial applications.
+How does e-money (Chaum's blind signatures) differ from cryptocurrency?	E-money gave strong anonymity but required a TRUSTED CENTRAL issuer. Cryptocurrency replaced that central trust with decentralization.
+What is a stablecoin?	A cryptocurrency that maintains 1:1 parity with a fiat currency (e.g., USDT, USDC, a BRL stablecoin).
+What is "programmable money"?	Money that carries embedded logic — e.g., an arriving payment can auto-split into investments via smart contracts. "Stablecoins make money function as software."
+PIX vs. a stablecoin — are they rivals?	No — different layers of one stack. PIX moves balances (fiat, domestic, bank-day settlement, on/off-ramp); a stablecoin moves logic (programmable, 24/7, global).
+What is tokenization?	Converting any asset of value (real estate, livestock, receivables) into fractional, transferable on-chain tokens.
+Why was Brazil's CBDC (Drex) cancelled?	Public-blockchain properties are fatal for a central bank: no transaction privacy, no central control of wallet balances, and hard to regulate — features for crypto, dealbreakers for a CBDC.
+Why are cryptocurrencies called "crypto"?	Because they are fundamentally built on cryptography; the primitives are what make trustless decentralization possible.
+Name the core cryptographic primitives a blockchain is built from, and what each provides.	Hash functions → integrity; digital signatures → ownership; randomness → key security; consensus → agreement; (increasingly) zero-knowledge proofs → privacy.
+What is a cryptographic hash function?	A function mapping an arbitrary-size input to a fixed-size output, infeasible to reverse. Same input always produces the same output.
+Name the three security properties of a hash function.	Pre-image resistance, second-preimage resistance, and collision resistance.
+What is pre-image resistance?	Given a hash output, it is infeasible to find the original input. This property underpins Proof-of-Work mining.
+What is second-preimage resistance?	Given input A, it is infeasible to find a different input B with the same hash. Protects against document/signature substitution.
+What is collision resistance?	It is infeasible to find ANY two distinct inputs with the same hash. The hardest property to guarantee.
+What is the avalanche effect?	Flipping one input bit changes at least ~50% of the output bits, unpredictably. It is a deliberate feature, not a flaw.
+Why is "collisions exist" not the same as "collision attacks are feasible"?	Collisions are mathematically inevitable (finite output, infinite input — birthday paradox). The danger is ENGINEERING a collision on demand, not its mere existence.
+What three properties does a digital signature provide?	Authentication (confirms identity), integrity (message unchanged), and non-repudiation (signer cannot later deny it).
+How is a digital signature produced and verified?	Sign with the private key; anyone can verify with the corresponding public key. No trusted third party needed.
+Symmetric vs. asymmetric cryptography?	Symmetric = one shared key (problem: must pre-share it securely). Asymmetric = a public/private key pair, removing the need for a pre-shared secret.
+In asymmetric crypto, what does the direction of encryption determine?	Encrypt with the public key → confidentiality. Encrypt/sign with the private key → authentication & non-repudiation.
+Why is randomness critical to cryptographic security?	Weak or predictable randomness produces predictable keys, breaking the system regardless of how strong the algorithms are.
+TRNG vs. PRNG?	TRNG = true random from physical noise (high quality, low volume); PRNG = expands a seed into usable pseudo-random material. A TRNG seeds a PRNG.
+What happens if a nonce is reused in ECDSA?	An attacker can recover the private key. (Real-world failures: PlayStation Network, Bitcoin wallets, Brazilian voting machines.)
+What is a zero-knowledge proof (ZKP)?	A way to prove a statement is true WITHOUT revealing the underlying data — e.g., prove you are over 18 without showing your birthdate.
+What is the quantum threat to blockchain, and what resists it?	A "cryptographically relevant" quantum computer would break RSA and elliptic-curve crypto. Hash functions are far more resistant (collision space 2^256 → 2^128, still safe).
+What is "crypto agility"?	The ability to plug in and swap cryptographic algorithms, so systems can migrate (e.g., to post-quantum schemes) without a redesign.
+ECDSA vs. RSA — key sizes and hard problems?	ECDSA: elliptic-curve discrete log, ~256-bit keys. RSA: prime factorization, ~2048-bit keys for similar security. ECDSA gives equal security with much smaller keys.
+What is a blockchain, as a data structure?	A linked list with hash pointers plus economic constraints — append-only, practically immutable, and globally verifiable.
+Hash pointer vs. normal pointer?	A normal pointer just points to a location (tampering undetectable). A hash pointer points to content AND stores its hash, so any change is detected and breaks the chain forward.
+Why is blockchain immutability "economic, not absolute"?	You CAN alter a block, but you must recompute every later block's hash and redo the consensus work. Cost grows with chain length — "enforced by cost, not impossibility."
+What is in a block header (and what protects the transactions)?	Header = previous-block hash, Merkle root, timestamp, nonce — and it gets hashed. The transaction body is protected indirectly via the Merkle root.
+What is a Merkle tree?	A binary hash tree: leaves are transaction hashes, each parent hashes its children, and the top is the Merkle root summarizing all transactions.
+What does a Merkle proof let you do, and at what cost?	Verify that a transaction is included in a block in O(log n) time (instead of O(n)), enabling light clients that don't store the full chain.
+How does the UTXO model represent value?	As discrete unspent transaction outputs: a transaction consumes inputs and creates new outputs. Your balance = the sum of UTXOs you control.
+How does the account model represent value?	As a global address → balance mapping; transactions directly update balances. (Used by Ethereum.)
+UTXO vs. account model — tradeoff?	UTXO (Bitcoin): simpler, easier to parallelize. Account (Ethereum): more intuitive, harder to parallelize.
+What is double-spending and how is it prevented?	Spending the same funds twice. Prevented by a single agreed transaction history — ordering plus consensus.
+Wallet vs. account — what's the distinction?	Public key = account (the address where funds sit). Private key = wallet (control over the funds). The blockchain holds the money; the wallet holds the key.
+What happens if you lose your private key?	The funds are permanently lost — there is no central recovery mechanism. "Who owns the keys owns the asset."
+What is a seed phrase (BIP32/BIP39)?	A single master secret from which all keys are deterministically derived (a hierarchical deterministic wallet). Convenient, but a single point of failure needing high entropy.
+Hot vs. cold wallet?	Hot = online, convenient, less secure. Cold = offline (hardware/paper), more secure, less convenient.
+Custodial vs. non-custodial wallet?	Custodial = a third party holds your keys (easy onboarding, counterparty risk). Non-custodial = you hold your keys (full control, full responsibility).
+With self-custody vs. custodial, where does the risk go?	Risk moves from the protocol to the user (self-custody) or to the institution (custodial). Self-custody is powerful but hard and risky.
+What is multisig (m-of-n)?	A scheme requiring m of n keys to authorize a transaction, removing a single point of failure (e.g., 2-of-3).
+What is MPC (multi-party computation) in key management?	Signing is distributed across parties so the full private key is NEVER reconstructed in one place. "Security becomes a protocol, not just a key."
+Where do most real blockchain attacks happen?	Not in the cryptography — in phishing, malware, and social engineering. The user is the weakest link; system security ≠ cryptographic strength.
+What does the consensus problem solve in a distributed ledger?	With independent nodes and network delays, views conflict. Consensus provides ordering, conflict resolution, and shared state so nodes converge on one history.
+What is the Sybil problem, and how does consensus address it?	One entity can cheaply create many fake identities, so voting by identity is unfair. Consensus ties influence to a scarce resource instead (energy, capital, or reputation).
+What resource does each consensus family use to resist Sybil attacks?	Proof of Work → energy/computation; Proof of Stake → staked capital; BFT → identity/reputation.
+How does the longest-chain rule resolve a Proof-of-Work fork?	The chain with the most accumulated work wins; blocks on the shorter chain are discarded.
+PoW vs. PoS — what secures each and the main risk of each?	PoW: secured by energy/computation; risk = high energy use and mining centralization. PoS: secured by staked capital with slashing; risk = stake concentration and governance capture.
+What is "slashing" in Proof of Stake?	A penalty that destroys part of a validator's staked capital for dishonest behavior — the economic deterrent that secures PoS.
+Probabilistic vs. deterministic finality?	PoW gives probabilistic finality (never 100%, just increasingly unlikely to reverse). BFT gives deterministic, instant finality.
+What are the main tradeoffs of BFT consensus?	Fast, deterministic finality, but limited scalability and NOT permissionless (it requires a known validator set).
+Why might a blockchain use a DAG/hashgraph instead of a linear chain?	To allow parallel block creation and higher throughput. "Structure defines performance limits."
+"Security is not based on moral virtue" — what is it based on in consensus?	Expected cost vs. reward. The resource that secures the system also shapes its politics.
+Why are cryptocurrencies "still alive" despite repeated crises?	Exchanges collapsed but protocols survived; governments banned but networks adapted; communities split but ecosystems continued. Resilience is sociotechnical, not purely technical.
+Name the four layers of cryptocurrency resilience.	Technical, Social, Economic, and Regulatory. Failure in one layer can propagate to others.
+What is the "resilience trinity"?	Consensus on Rules (what's valid), History (what happened), and Value (why it matters). A coin fails only when all three collapse at once.
+Why is governance "technical AND political"?	Rules are implemented in code but only take force when stakeholders adopt them. "Code is law only when people agree code matters." (Formalized via BIPs/EIPs.)
+What are the foundations of a token's value?	Scarcity, credible rules, liquidity, utility, convertibility, and market confidence. Scarcity ALONE is not enough — useless scarcity is worthless.
+What is the Bitcoin halving?	Issuance is cut in half roughly every four years (50→25 BTC in 2012), heading toward a 21M cap. Predictable scarcity supports value expectations.
+Why can a 51% attack be economically irrational?	Large networks are too expensive to attack, and even a successful attack can collapse the token's value — making it self-defeating.
+Why are stablecoins "bridges, not outside finance"?	They reduce volatility inside crypto but reintroduce dependence on issuers, reserves, banks, and regulators.
+Rule fork vs. history fork?	Rule fork asks "what should the protocol BECOME?" (e.g., Bitcoin Cash). History fork asks "should we accept or REWRITE what happened?" (e.g., Ethereum vs. Ethereum Classic).
+What happened in the DAO hack, and how did Ethereum respond?	A contract bug drained ~$50M (≈1.92M ETH). The majority hard-forked to reverse the theft (Ethereum); the minority kept the original immutable history (Ethereum Classic).
+What did the DAO fork reveal about immutability?	Immutability is a social commitment, not a law of physics. "Code is law" is an ideology a community can choose to override.
+What is antifragility in the crypto context?	Systems that improve THROUGH stress, not just resist it: crises expose weaknesses, and the community strengthens infrastructure in response.
+What weakness did Mt. Gox expose, and what was the response?	Centralized custodians. Response: hardware wallets, multisig, self-custody, and decentralized exchanges.
+What weakness did the FTX collapse expose, and what was the response?	Centralized exchange opacity and mismanagement. Response: proof of reserves, transparency, and stronger regulation.
+When do cryptocurrencies get regulated, and what does regulation usually do?	When they become too big to ignore. Regulation rarely kills resilient systems — it RESHAPES custody, compliance, and market access.
+Compare the EU, US, and Asia regulatory approaches.	EU: MiCA, a harmonized single-market framework. US: fragmented, enforcement-driven (SEC/CFTC/FinCEN). Asia: state-led CBDC experimentation.
+What is the FATF Travel Rule?	Identity info must accompany crypto transfers (like wire transfers), forcing exchanges to collect KYC. The protocol stays pseudonymous but the ecosystem becomes "identity-aware."
+What is the institutional-adoption paradox?	Crypto was built to reduce institutional dependence, yet ETFs, custodians, and proof-of-reserves now reinforce its legitimacy. Resilience grows through diversity, not purism.
+What does DeFi actually do to financial intermediation?	It TRANSFORMS intermediation into protocol rules and smart contracts — it does not eliminate it. Risk moves from bank risk to protocol risk.
+What question replaces "Who are you?" in DeFi lending?	"What collateral did you post?" DeFi removes identity gatekeeping but adds collateral gatekeeping.
+Describe the DeFi stack from bottom to top.	Settlement chain → smart-contract layer → token/stablecoin layer → oracle & liquidity layer → wallet/UI layer → governance layer.
+Why is a smart contract in DeFi "the machine, not paperwork"?	It holds assets and enforces rules deterministically, so a bug becomes live financial infrastructure instantly — no document, no back-office discretion, no easy reversal.
+Why is liquidity called the fuel of DeFi?	Without it, a protocol can work technically but fail economically. "No liquidity, no DeFi — just code waiting for money."
+What does TVL (Total Value Locked) measure, and what does it NOT tell you?	It measures capital deposited / relative protocol size. It does NOT reveal trading volume, revenue, real usage, security, or protocol health (and can be inflated).
+What is an oracle, and why is oracle failure serious?	A bridge bringing external data (prices, FX) on-chain. Oracle failure (manipulation, staleness, downtime) becomes protocol failure — "DeFi is only as decentralized as its data."
+What is an AMM, and what is the constant product invariant?	An Automated Market Maker prices trades against a liquidity pool via a formula instead of an order book. The common invariant is x · y = k: as one asset gets scarcer, its price rises.
+Does the constant product formula give infinite liquidity?	No — it gives automatic pricing, but prices worsen as one asset is drained. The formula prices liquidity; it does not create infinite liquidity.
+Slippage vs. impermanent loss?	Slippage hits the TRADER (gap between expected and actual price, worse for big trades/shallow pools). Impermanent loss hits the LIQUIDITY PROVIDER (ends up worth less than just holding).
+Why does DeFi lending require overcollateralization?	With no credit check, lenders are protected by collateral worth more than the loan (e.g., post 200 in ETH to borrow 100 USDC), covering price drops.
+What is the health factor, and what triggers liquidation?	Health factor = collateral value ÷ borrowed value. Above 1 is safe; as it approaches 1, a liquidation can occur.
+What is a liquidation in DeFi lending?	When a position becomes unsafe, a liquidator repays part of the debt and takes collateral at a discount — "the protocol protecting itself from your optimism."
+What is MEV (Maximal Extractable Value)?	Value extracted by ordering transactions advantageously (front-running, sandwich attacks). "Transaction ordering has economic value."
+What is composability, and why is it double-edged?	Protocols/tokens plug into each other (an LP token becomes collateral elsewhere). It is DeFi's superpower (rapid innovation) and its attack surface (contagion).
+Why is "hybrid finance" the realistic future, not pure DeFi?	Real products mix DeFi rails with custodians, KYC, cards, and banks — neither fully decentralized nor fully centralized.
+List things DeFi does NOT do.	It does not eliminate intermediation, create infinite liquidity, remove volatility, guarantee safety, erase leverage/collateral/solvency risk, or create free yield.
+Is Bitcoin anonymous?	No — it is pseudonymous. Addresses aren't legal names, but behavior is highly traceable through forensic analysis.
+Define privacy, anonymity, pseudonymity, and unlinkability.	Privacy = control over what others learn about you. Anonymity = actions can't be tied to your real identity. Pseudonymity = actions tie to a non-legal-name identifier. Unlinkability = transactions can't be tied to the same actor.
+Why doesn't removing names from a public ledger give privacy?	The ledger still exposes the transaction graph, amounts, timing, and repeated patterns — and it's persistent and globally searchable. Deleting identifiers does not stop inference.
+Why is unlinkability a stronger goal than "is it anonymous?"	Real privacy depends on how hard it is to LINK behavior patterns, not just whether names are visible. A system can be "anonymous" yet highly traceable.
+What is the multi-input heuristic?	The assumption that if several inputs are signed together in one transaction, they are likely controlled by the same entity — a powerful clustering technique against Bitcoin.
+How do change outputs leak privacy?	Spending a whole UTXO returns "change" to a new address; value structure, address reuse, and timing let analysts identify it and expand the sender's wallet cluster.
+What are the four stages of blockchain deanonymization?	(1) transaction-graph clustering, (2) wallet grouping, (3) metadata correlation, (4) off-chain identity resolution (KYC, posted addresses, merchant data, IP logs).
+Why is off-chain data so important to deanonymization?	"The ledger alone may not identify you; the ledger plus the real world often does." One linking point exposes both past and future activity.
+What is an anonymity set, and why is size alone not enough?	The number of plausible actors a transaction could belong to (bigger = stronger). But bad timing, side channels, and off-chain leaks shrink it regardless of size.
+Privacy-by-workaround vs. privacy-by-design?	Workaround = public ledger + privacy tool on top (mixers, CoinJoin) — fragile. By-design = privacy built into the protocol (Monero, Zcash) — structurally sound.
+Centralized mixer vs. CoinJoin?	A mixer takes custody and you must trust it not to log/steal/cooperate. CoinJoin combines many users' inputs/outputs into one jointly-signed transaction — no custody, no central party.
+How does Monero achieve privacy by default?	Ring signatures hide the sender, stealth addresses hide the receiver, and RingCT hides the amount — so every transaction resembles many others, defeating heuristics.
+How does Zcash's selective transparency work?	T-addresses are transparent (Bitcoin-like); Z-addresses are shielded via zk-SNARKs, proving a transaction is valid without revealing sender, receiver, or amount.
+How do zero-knowledge proofs change the privacy paradigm?	They shift privacy from HIDING data to PROVING correctness — proving a fact (validity, balance, age) without exposing the underlying information.
+Why was Tornado Cash significant?	Its zk-SNARK mixer proved strong privacy is possible — then drew sanctions and arrests, showing privacy in blockchain is a legal/governance turning point, not just a technical one.
+What is the core shift in Self-Sovereign Identity?	From "Who are you?" (database/account lookup) to "What can you prove?" (verifiable claims you hold). Trust moves from an institution's database to a cryptographic signature plus issuer reputation.
+Why did Web 2.0 identity become a problem SSI tries to fix?	Google/Meta/Apple logins fixed usability but created identity monopolies and surveillance — every login is tracked, and one provider can lock you out.
+Name the three actors in the SSI trust triangle.	Issuer (creates and signs credentials), Holder (stores them, controls presentation), Verifier (checks signature, status, and issuer authority).
+In SSI, what does the verifier actually check?	The issuer's cryptographic signature, public key, and revocation status — NOT the holder's personal database record.
+What is a Verifiable Credential (VC)?	A signed, portable, machine-verifiable claim. It enables selective disclosure and verification without contacting the issuer every time (asynchronous trust).
+What is selective disclosure?	Proving only the required attribute (e.g., age > 18) without revealing everything (like your birthdate or full ID).
+What is a Decentralized Identifier (DID), and why doesn't it auto-decentralize?	An identifier (did:method:identifier) resolving to a document of keys/endpoints. If its method depends on one institution, centralization remains — DIDs are tools, not automatic solutions.
+Identity credentials vs. attribute credentials?	Identity credentials IDENTIFY a person (passport, national ID). Attribute credentials QUALIFY a person (student status, degree, age). SSI's power is decomposing identity into reusable attributes.
+Why does revocation matter in SSI, and what is blockchain's role?	Credential status changes (graduation, fraud), and verifiers can't call the issuer each time. Blockchain can provide a public, timestamped, tamper-resistant revocation/trust root.
+Is blockchain mandatory for SSI?	No. Blockchain helps with public revocation/trust state and timestamping, but SSI also works with trusted lists and wallets. It does NOT solve semantic meaning or legal recognition.
+What are the layers of SSI interoperability, hardest part?	Technical (common formats) < semantic (a Brazilian "course level" ≠ a Spanish one) < legal (mutual cross-border recognition). Blockchain can't fix the semantic/legal layers.
+What is eIDAS2, and what is its trust root?	An EU regulation mandating digital-identity wallets. Its trust root is the EU legal framework and a trusted issuer list — NOT blockchain consensus. Adoption is driven by law and institutions.
+Compare public-blockchain, trusted-list, and hybrid SSI architectures.	Public blockchain: trust = ledger consensus (censorship resistance). Trusted list: trust = legal authority (cross-border recognition). Hybrid: wallet + ledger/list + institutions — most practical.
+What is a smart contract (EVM)?	A program deployed at a blockchain address that holds state and exposes functions, runs in the EVM, and can hold/move assets. It's a public state machine with money attached, not a backend service.
+How does a smart contract differ from a natural-language contract?	Its code is deterministic — interpretation is fixed BEFORE execution, eliminating the ambiguity-driven disputes of natural-language agreements.
+Why must smart-contract execution be deterministic?	Every node must independently reach the same result for consensus. So the EVM avoids true randomness, external data, and time-dependent logic — "determinism is the price of consensus."
+Does the EVM run Solidity?	No — it runs compiled bytecode. Solidity is compiled to EVM bytecode; state is persistent and replicated on every full node.
+What is gas?	The cost metric that limits computation and storage abuse. Storage is expensive because every full node must carry it; on real networks gas costs real money.
+Why is access control foundational in a smart contract?	msg.sender (the verified caller) plus require (a guard that reverts on failure) are security decisions. Missing access control turns a registry into "a public vandalism interface."
+Why is immutability both a feature and a liability for smart contracts?	Feature: code can't be secretly changed. Liability: bugs can't be patched in place (the DAO hack is the canonical example). Upgrades need complex proxy patterns, so testing/audits are essential.
+Transaction vs. read-only (view) call?	A view call reads state locally — no signing, no mining, no gas, no state change. A transaction changes state — it must be signed and mined, costs gas, and can revert.
+In Solidity, is a "private" variable secret on-chain?	No. "private" only controls code-level visibility; all on-chain data is readable by anyone running a full node. Don't store secrets in a contract.
+Are events contract state?	No. Events are off-chain logs for applications to listen to; contract logic cannot read them. Don't rely on events for on-chain logic.
+Why shouldn't block.timestamp be security-critical?	Miners can slightly manipulate it, so it's unsafe for decisions that depend on exact timing.
+Name three things blockchain does NOT do (honest scope).	It does not verify real-world identity, enforce legal judgments, or evaluate work quality. It also doesn't guarantee privacy or safety on its own.
+What is the recurring "transparency vs. privacy" tension?	A public ledger is excellent for accountability but fatal for privacy — and removing names doesn't stop inference from amounts, timing, and graph structure.
+What is the recurring "decentralization vs. institutional trust" tension?	Most "decentralized" designs still depend on something centralized — an oracle, a DID method, a trusted issuer, or a legal framework. Decentralization is rarely total.
