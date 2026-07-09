@@ -13,7 +13,7 @@ contract Deploy is Script {
         vm.startBroadcast(pk);
 
         MockUSDC usdc = new MockUSDC();
-        EscrowFactory factory = new EscrowFactory(deployer, deployer, 100); // 1% fee, deployer = feeReceiver
+        EscrowFactory factory = new EscrowFactory(deployer, deployer, 0); // 0% fee for the demo: release pays the milestone amount exactly
         factory.setTokenAllowed(address(usdc), true);
         factory.setArbitrator(deployer, true);
 
